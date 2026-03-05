@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Classify Text with LSTM</h2>
+    <p>Upload your model assets in <code>ml_assets/</code>: <code>model.keras</code>, <code>tokenizer.pkl</code>, optional <code>labels.json</code> and <code>max_len.txt</code>.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Predict</button>
+    </form>
+</div>
+
+{% if result %}
+<div class="card">
+    <h3>Prediction Result</h3>
+    <p><strong>Label:</strong> {{ result.label }}</p>
+    <p><strong>Confidence:</strong> {{ result.confidence|floatformat:4 }}</p>
+</div>
+{% endif %}
+{% endblock %}
