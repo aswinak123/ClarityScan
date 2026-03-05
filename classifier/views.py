@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
@@ -25,8 +26,15 @@ def signup_view(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('classify')
+            raw_password = form.cleaned_data.get('password1')
+            authenticated_user = authenticate(request, username=user.username, password=raw_password)
+
+            if authenticated_user is not None:
+                login(request, authenticated_user)
+                return redirect('classify')
+
+            messages.success(request, 'Account created successfully. Please log in.')
+            return redirect('login')
     else:
         form = SignupForm()
 
