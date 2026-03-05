@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Your Prediction History</h2>
+    {% if history %}
+    <table>
+        <thead>
+            <tr>
+                <th>Timestamp (UTC)</th>
+                <th>Input</th>
+                <th>Label</th>
+                <th>Confidence</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in history %}
+            <tr>
+                <td>{{ item.created_at }}</td>
+                <td>{{ item.input_text }}</td>
+                <td>{{ item.prediction_label }}</td>
+                <td>{{ item.confidence|floatformat:4 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You have no predictions yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
