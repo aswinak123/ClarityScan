@@ -27,5 +27,6 @@ Place your existing model artifacts in `ml_assets/`:
 
 - `/signup/` create account
 - `/login/` log in
+- `/logged-in/` post-login landing page
 - `/` classify text
 - `/history/` view your own prediction history
