@@ -1,7 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 
 from .forms import ClassifyForm, SignupForm
@@ -13,9 +13,12 @@ class UserLoginView(LoginView):
     template_name = 'classifier/login.html'
 
 
-class UserLogoutView(LogoutView):
-    pass
 
+
+def logout_view(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect('login')
 
 def signup_view(request):
     if request.user.is_authenticated:
