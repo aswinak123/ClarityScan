@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Logged In</h2>
+    <p>Welcome, <strong>{{ user.username }}</strong>! Your account is authenticated.</p>
+    <p>You can now classify text or review your prediction history.</p>
+    <p>
+        <a href="{% url 'classify' %}">Go to Classify</a> |
+        <a href="{% url 'history' %}">View History</a>
+    </p>
+</div>
+{% endblock %}

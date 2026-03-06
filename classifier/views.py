@@ -26,11 +26,16 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('classify')
+            return redirect('logged_in')
     else:
         form = SignupForm()
 
     return render(request, 'classifier/signup.html', {'form': form})
+
+
+@login_required
+def logged_in_view(request):
+    return render(request, 'classifier/logged_in.html')
 
 
 @login_required
