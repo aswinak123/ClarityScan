@@ -5,38 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClarityScan</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 12px; }
-        nav { margin-bottom: 18px; }
-        nav a { margin-right: 12px; }
-        .card { border: 1px solid #ddd; border-radius: 8px; padding: 14px; margin-bottom: 12px; }
+        :root {
+            --bg: #f6f0ff;
+            --bg-soft: #efe4ff;
+            --primary: #6f42c1;
+            --primary-dark: #5b2ea9;
+            --text: #2f1b52;
+            --muted: #6f5b95;
+            --border: #d6c3f3;
+            --card-bg: #ffffff;
+            --success-bg: #f0e7ff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Inter, Arial, sans-serif;
+            background: radial-gradient(circle at top right, var(--bg-soft), var(--bg));
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 24px 14px 32px;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), #8756df);
+            color: #fff;
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 24px rgba(111, 66, 193, 0.25);
+        }
+
+        .app-title {
+            margin: 0;
+            font-size: 1.7rem;
+            font-weight: 700;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.2s ease;
+        }
+
+        nav a:hover { background: rgba(255, 255, 255, 0.32); }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 18px rgba(111, 66, 193, 0.08);
+        }
+
+        h2, h3 { margin-top: 0; color: var(--primary-dark); }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--primary-dark);
+        }
+
+        input, textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font: inherit;
+            color: var(--text);
+            background: #fff;
+        }
+
+        input:focus, textarea:focus {
+            outline: 2px solid #c5a7ff;
+            border-color: var(--primary);
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            padding: 10px 14px;
+            cursor: pointer;
+        }
+
+        button:hover { background: var(--primary-dark); }
+
         .messages { list-style: none; padding: 0; }
-        .messages li { margin-bottom: 8px; color: #a00; }
+
+        .messages li {
+            border-radius: 10px;
+            border: 1px solid #e6d8ff;
+            background: #f8f3ff;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            padding: 10px 12px;
+        }
+
         table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #efe3ff;
+            color: var(--primary-dark);
+        }
+
+        code {
+            background: #f0e6ff;
+            border-radius: 6px;
+            padding: 2px 6px;
+        }
+
+        .muted { color: var(--muted); }
     </style>
 </head>
 <body>
-    <h1>ClarityScan</h1>
-    <nav>
-        {% if user.is_authenticated %}
-            <a href="{% url 'logged_in' %}">Logged in</a>
-            <a href="{% url 'classify' %}">Classify</a>
-            <a href="{% url 'history' %}">History</a>
-            <a href="{% url 'logout' %}">Logout</a>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'signup' %}">Sign up</a>
+    <div class="container">
+        <header class="app-header">
+            <h1 class="app-title">ClarityScan</h1>
+            <nav>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logged_in' %}">Dashboard</a>
+                    <a href="{% url 'classify' %}">Classify</a>
+                    <a href="{% url 'history' %}">History</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'signup' %}">Sign up</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
         {% endif %}
-    </nav>
 
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
+    </div>
 </body>
 </html>
